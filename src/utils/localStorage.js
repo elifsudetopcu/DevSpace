@@ -4,25 +4,60 @@ const CURRENT_USER_KEY = "devspace_current_user";
 
 
 /* =========================
+   SAFE STORAGE HELPERS
+   (localStorage kapalıysa veya veri bozuksa
+   uygulama beyaz ekrana düşmesin)
+========================= */
+
+function readJSON(key, fallback) {
+  try {
+    const data = localStorage.getItem(key);
+
+    if (!data) {
+      return fallback;
+    }
+
+    return JSON.parse(data);
+  } catch {
+    return fallback;
+  }
+}
+
+
+function writeJSON(key, value) {
+  try {
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+  } catch {
+    /* depolama kapalı / dolu: sessizce geç */
+  }
+}
+
+
+function removeKey(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    /* yoksay */
+  }
+}
+
+
+/* =========================
    USERS
 ========================= */
 
 export function getUsers() {
-  const data = localStorage.getItem(USERS_KEY);
+  const users = readJSON(USERS_KEY, []);
 
-  if (!data) {
-    return [];
-  }
-
-  return JSON.parse(data);
+  return Array.isArray(users) ? users : [];
 }
 
 
 export function saveUsers(users) {
-  localStorage.setItem(
-    USERS_KEY,
-    JSON.stringify(users)
-  );
+  writeJSON(USERS_KEY, users);
 }
 
 
@@ -31,30 +66,17 @@ export function saveUsers(users) {
 ========================= */
 
 export function getCurrentUser() {
-  const data = localStorage.getItem(
-    CURRENT_USER_KEY
-  );
-
-  if (!data) {
-    return null;
-  }
-
-  return JSON.parse(data);
+  return readJSON(CURRENT_USER_KEY, null);
 }
 
 
 export function saveCurrentUser(user) {
-  localStorage.setItem(
-    CURRENT_USER_KEY,
-    JSON.stringify(user)
-  );
+  writeJSON(CURRENT_USER_KEY, user);
 }
 
 
 export function removeCurrentUser() {
-  localStorage.removeItem(
-    CURRENT_USER_KEY
-  );
+  removeKey(CURRENT_USER_KEY);
 }
 
 
@@ -63,23 +85,14 @@ export function removeCurrentUser() {
 ========================= */
 
 export function getAllProjects() {
-  const data = localStorage.getItem(
-    PROJECTS_KEY
-  );
+  const projects = readJSON(PROJECTS_KEY, []);
 
-  if (!data) {
-    return [];
-  }
-
-  return JSON.parse(data);
+  return Array.isArray(projects) ? projects : [];
 }
 
 
 export function saveAllProjects(projects) {
-  localStorage.setItem(
-    PROJECTS_KEY,
-    JSON.stringify(projects)
-  );
+  writeJSON(PROJECTS_KEY, projects);
 }
 
 

@@ -40,10 +40,14 @@ function Login() {
       getUsers();
 
 
+    const normalizedEmail =
+      email.trim().toLowerCase();
+
+
     const user =
       users.find(
         (item) =>
-          item.email === email &&
+          item.email === normalizedEmail &&
           item.password === password
       );
 
