@@ -1,16 +1,36 @@
-# React + Vite
+# DevSpace
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A frontend project management dashboard built with React.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- User registration and login
+- Project management
+- Add, edit and delete projects
+- Project task management
+- Automatic progress calculation
+- Project status tracking
+- GitHub project links
+- Search projects
+- Card and list views
+- LocalStorage data management
+- Responsive design
+- Dark theme
 
-## React Compiler
+## Technologies
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- JavaScript
+- Bootstrap
+- CSS
+- LocalStorage
+- React Router
+- Vite
 
-## Expanding the Oxlint configuration
+## Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+npm install
+
+## Run
+
+npm run dev
