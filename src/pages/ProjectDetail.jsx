@@ -7,7 +7,8 @@ import {
 
 import {
   getAllProjects,
-  saveAllProjects,
+  getCurrentUser,
+  updateProject,
   calculateProgress,
   getProjectStatus
 } from "../utils/localStorage";
@@ -15,9 +16,16 @@ import {
 
 function ProjectDetail() {
 
-  const { id } = useParams();
+  const { id } =
+    useParams();
 
-  const navigate = useNavigate();
+
+  const navigate =
+    useNavigate();
+
+
+  const currentUser =
+    getCurrentUser();
 
 
   const [projects, setProjects] =
@@ -29,13 +37,19 @@ function ProjectDetail() {
   const project =
     projects.find(
       (item) =>
-        item.id === Number(id)
+        item.id === Number(id) &&
+        item.userId ===
+          currentUser?.id
     );
 
 
   const [taskText, setTaskText] =
     useState("");
 
+
+  /* =========================
+     PROJECT NOT FOUND
+  ========================= */
 
   if (!project) {
 
@@ -45,18 +59,27 @@ function ProjectDetail() {
 
         <div className="container py-5">
 
-          <h2>
-            Project not found.
-          </h2>
+          <div className="card p-5 text-center">
 
-          <button
-            className="btn btn-primary mt-3"
-            onClick={() =>
-              navigate("/projects")
-            }
-          >
-            Back to Projects
-          </button>
+            <h2 className="fw-bold">
+              Project not found.
+            </h2>
+
+            <p className="text-secondary">
+              This project does not exist or does not belong to your account.
+            </p>
+
+
+            <button
+              className="btn btn-primary mt-3"
+              onClick={() =>
+                navigate("/projects")
+              }
+            >
+              Back to Projects
+            </button>
+
+          </div>
 
         </div>
 
@@ -68,19 +91,31 @@ function ProjectDetail() {
 
 
   const progress =
-    calculateProgress(project);
+    calculateProgress(
+      project
+    );
 
 
   const status =
-    getProjectStatus(project);
+    getProjectStatus(
+      project
+    );
+
+
+  const tasks =
+    project.tasks || [];
 
 
   const completedTasks =
-    project.tasks.filter(
+    tasks.filter(
       (task) =>
         task.completed
     ).length;
 
+
+  /* =========================
+     SAVE UPDATED PROJECT
+  ========================= */
 
   function saveUpdatedProject(
     updatedProject
@@ -101,11 +136,16 @@ function ProjectDetail() {
     );
 
 
-    saveAllProjects(
-      updatedProjects
+    updateProject(
+      updatedProject
     );
+
   }
 
+
+  /* =========================
+     ADD TASK
+  ========================= */
 
   function addTask() {
 
@@ -131,7 +171,7 @@ function ProjectDetail() {
       ...project,
 
       tasks: [
-        ...project.tasks,
+        ...tasks,
         newTask
       ]
 
@@ -144,26 +184,38 @@ function ProjectDetail() {
 
 
     setTaskText("");
+
   }
 
 
-  function toggleTask(taskId) {
+  /* =========================
+     TOGGLE TASK
+  ========================= */
+
+  function toggleTask(
+    taskId
+  ) {
 
     const updatedTasks =
-      project.tasks.map(
+      tasks.map(
         (task) => {
 
           if (
-            task.id === taskId
+            task.id ===
+            taskId
           ) {
 
             return {
+
               ...task,
+
               completed:
                 !task.completed
+
             };
 
           }
+
 
           return task;
 
@@ -175,7 +227,8 @@ function ProjectDetail() {
 
       ...project,
 
-      tasks: updatedTasks
+      tasks:
+        updatedTasks
 
     };
 
@@ -183,13 +236,20 @@ function ProjectDetail() {
     saveUpdatedProject(
       updatedProject
     );
+
   }
 
 
-  function deleteTask(taskId) {
+  /* =========================
+     DELETE TASK
+  ========================= */
+
+  function deleteTask(
+    taskId
+  ) {
 
     const updatedTasks =
-      project.tasks.filter(
+      tasks.filter(
         (task) =>
           task.id !== taskId
       );
@@ -199,7 +259,8 @@ function ProjectDetail() {
 
       ...project,
 
-      tasks: updatedTasks
+      tasks:
+        updatedTasks
 
     };
 
@@ -207,6 +268,7 @@ function ProjectDetail() {
     saveUpdatedProject(
       updatedProject
     );
+
   }
 
 
@@ -229,7 +291,9 @@ function ProjectDetail() {
         </button>
 
 
-        {/* PROJECT HEADER */}
+        {/* =========================
+            PROJECT HEADER
+        ========================= */}
 
         <div className="card border-0 shadow-sm p-4 mb-4">
 
@@ -241,9 +305,11 @@ function ProjectDetail() {
                 {project.category}
               </span>
 
+
               <h1 className="fw-bold">
                 {project.title}
               </h1>
+
 
               <p className="text-secondary mb-0">
                 {project.description}
@@ -256,7 +322,8 @@ function ProjectDetail() {
               className={`badge ${
                 status === "Completed"
                   ? "bg-success"
-                  : status === "In Progress"
+                  : status ===
+                    "In Progress"
                   ? "bg-primary"
                   : "bg-secondary"
               }`}
@@ -276,6 +343,7 @@ function ProjectDetail() {
               <span className="text-secondary">
                 Project Progress
               </span>
+
 
               <strong>
                 {progress}%
@@ -305,7 +373,7 @@ function ProjectDetail() {
             <small className="text-secondary d-block mt-2">
 
               {completedTasks} of{" "}
-              {project.tasks.length}{" "}
+              {tasks.length}{" "}
               tasks completed
 
             </small>
@@ -315,7 +383,9 @@ function ProjectDetail() {
         </div>
 
 
-        {/* TECHNOLOGIES */}
+        {/* =========================
+            TECHNOLOGIES
+        ========================= */}
 
         <div className="card border-0 shadow-sm p-4 mb-4">
 
@@ -324,7 +394,7 @@ function ProjectDetail() {
           </h5>
 
 
-          {project.technologies.map(
+          {project.technologies?.map(
             (technology, index) => (
 
               <span
@@ -337,10 +407,34 @@ function ProjectDetail() {
             )
           )}
 
+
+          {/* GITHUB */}
+
+          {project.github && (
+
+            <div>
+
+              <a
+                href={
+                  project.github
+                }
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-outline-light btn-sm mt-3"
+              >
+                View on GitHub
+              </a>
+
+            </div>
+
+          )}
+
         </div>
 
 
-        {/* TASK AREA */}
+        {/* =========================
+            TASK AREA
+        ========================= */}
 
         <div className="card border-0 shadow-sm p-4">
 
@@ -362,7 +456,7 @@ function ProjectDetail() {
             <span className="badge bg-primary">
 
               {completedTasks}/
-              {project.tasks.length}
+              {tasks.length}
 
             </span>
 
@@ -386,7 +480,8 @@ function ProjectDetail() {
               onKeyDown={(event) => {
 
                 if (
-                  event.key === "Enter"
+                  event.key ===
+                  "Enter"
                 ) {
 
                   addTask();
@@ -409,8 +504,7 @@ function ProjectDetail() {
 
           {/* TASK LIST */}
 
-          {project.tasks.length ===
-          0 ? (
+          {tasks.length === 0 ? (
 
             <div className="text-center py-5">
 
@@ -428,7 +522,7 @@ function ProjectDetail() {
 
             <div>
 
-              {project.tasks.map(
+              {tasks.map(
                 (task) => (
 
                   <div

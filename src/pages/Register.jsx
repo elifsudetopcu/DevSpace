@@ -8,8 +8,7 @@ import {
 import {
   getUsers,
   saveUsers,
-  saveCurrentUser,
-  saveAllProjects
+  saveCurrentUser
 } from "../utils/localStorage";
 
 
@@ -46,10 +45,15 @@ function Register() {
       getUsers();
 
 
+    const normalizedEmail =
+      email.trim().toLowerCase();
+
+
     const existingUser =
       users.find(
         (user) =>
-          user.email === email
+          user.email ===
+          normalizedEmail
       );
 
 
@@ -71,7 +75,7 @@ function Register() {
         name.trim(),
 
       email:
-        email.trim(),
+        normalizedEmail,
 
       password
 
@@ -86,25 +90,6 @@ function Register() {
 
     saveCurrentUser(
       newUser
-    );
-
-
-    /*
-
-      Yeni kullanıcı için
-      başlangıçta proje oluşturulmuyor.
-
-      Kullanıcı Dashboard'dan
-      kendi projelerini ekleyecek.
-
-    */
-
-    saveAllProjects(
-      JSON.parse(
-        localStorage.getItem(
-          "devspace_projects"
-        ) || "[]"
-      )
     );
 
 
@@ -147,6 +132,8 @@ function Register() {
                 onSubmit={handleSubmit}
               >
 
+                {/* NAME */}
+
                 <div className="mb-3">
 
                   <label className="form-label">
@@ -168,6 +155,8 @@ function Register() {
                 </div>
 
 
+                {/* EMAIL */}
+
                 <div className="mb-3">
 
                   <label className="form-label">
@@ -188,6 +177,8 @@ function Register() {
 
                 </div>
 
+
+                {/* PASSWORD */}
 
                 <div className="mb-4">
 

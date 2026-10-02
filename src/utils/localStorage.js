@@ -2,6 +2,7 @@ const USERS_KEY = "devspace_users";
 const PROJECTS_KEY = "devspace_projects";
 const CURRENT_USER_KEY = "devspace_current_user";
 
+
 /* =========================
    USERS
 ========================= */
@@ -15,6 +16,7 @@ export function getUsers() {
 
   return JSON.parse(data);
 }
+
 
 export function saveUsers(users) {
   localStorage.setItem(
@@ -40,12 +42,14 @@ export function getCurrentUser() {
   return JSON.parse(data);
 }
 
+
 export function saveCurrentUser(user) {
   localStorage.setItem(
     CURRENT_USER_KEY,
     JSON.stringify(user)
   );
 }
+
 
 export function removeCurrentUser() {
   localStorage.removeItem(
@@ -70,6 +74,7 @@ export function getAllProjects() {
   return JSON.parse(data);
 }
 
+
 export function saveAllProjects(projects) {
   localStorage.setItem(
     PROJECTS_KEY,
@@ -83,10 +88,13 @@ export function saveAllProjects(projects) {
 ========================= */
 
 export function getUserProjects(userId) {
-  const projects = getAllProjects();
+
+  const projects =
+    getAllProjects();
 
   return projects.filter(
-    (project) => project.userId === userId
+    (project) =>
+      project.userId === userId
   );
 }
 
@@ -96,11 +104,15 @@ export function getUserProjects(userId) {
 ========================= */
 
 export function addProject(project) {
-  const projects = getAllProjects();
+
+  const projects =
+    getAllProjects();
 
   projects.push(project);
 
-  saveAllProjects(projects);
+  saveAllProjects(
+    projects
+  );
 }
 
 
@@ -108,20 +120,44 @@ export function addProject(project) {
    UPDATE PROJECT
 ========================= */
 
-export function updateProject(updatedProject) {
-  const projects = getAllProjects();
+export function updateProject(
+  updatedProject
+) {
 
-  const updatedProjects = projects.map(
-    (project) => {
-      if (project.id === updatedProject.id) {
-        return updatedProject;
+  const currentUser =
+    getCurrentUser();
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  const projects =
+    getAllProjects();
+
+
+  const updatedProjects =
+    projects.map(
+      (project) => {
+
+        if (
+          project.id ===
+            updatedProject.id &&
+          project.userId ===
+            currentUser.id
+        ) {
+          return updatedProject;
+        }
+
+        return project;
+
       }
+    );
 
-      return project;
-    }
+
+  saveAllProjects(
+    updatedProjects
   );
-
-  saveAllProjects(updatedProjects);
 }
 
 
@@ -129,14 +165,36 @@ export function updateProject(updatedProject) {
    DELETE PROJECT
 ========================= */
 
-export function deleteProject(projectId) {
-  const projects = getAllProjects();
+export function deleteProject(
+  projectId
+) {
 
-  const updatedProjects = projects.filter(
-    (project) => project.id !== projectId
+  const currentUser =
+    getCurrentUser();
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  const projects =
+    getAllProjects();
+
+
+  const updatedProjects =
+    projects.filter(
+      (project) =>
+        !(
+          project.id === projectId &&
+          project.userId ===
+            currentUser.id
+        )
+    );
+
+
+  saveAllProjects(
+    updatedProjects
   );
-
-  saveAllProjects(updatedProjects);
 }
 
 
@@ -144,7 +202,10 @@ export function deleteProject(projectId) {
    CALCULATE PROGRESS
 ========================= */
 
-export function calculateProgress(project) {
+export function calculateProgress(
+  project
+) {
+
   if (
     !project.tasks ||
     project.tasks.length === 0
@@ -152,13 +213,19 @@ export function calculateProgress(project) {
     return 0;
   }
 
+
   const completedTasks =
     project.tasks.filter(
-      (task) => task.completed
+      (task) =>
+        task.completed
     ).length;
 
+
   return Math.round(
-    (completedTasks / project.tasks.length) * 100
+    (
+      completedTasks /
+      project.tasks.length
+    ) * 100
   );
 }
 
@@ -167,16 +234,23 @@ export function calculateProgress(project) {
    PROJECT STATUS
 ========================= */
 
-export function getProjectStatus(project) {
-  const progress = calculateProgress(project);
+export function getProjectStatus(
+  project
+) {
+
+  const progress =
+    calculateProgress(project);
+
 
   if (progress === 100) {
     return "Completed";
   }
 
+
   if (progress > 0) {
     return "In Progress";
   }
+
 
   return "Not Started";
 }

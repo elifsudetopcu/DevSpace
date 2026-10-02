@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
+import {
+  Link
+} from "react-router-dom";
+
 import ProjectCard from "../components/ProjectCard";
+import ProjectForm from "../components/ProjectForm";
 
 import {
   getCurrentUser,
@@ -38,6 +43,14 @@ function Projects() {
     useState("grid");
 
 
+  const [editingProject, setEditingProject] =
+    useState(null);
+
+
+  const [showEditForm, setShowEditForm] =
+    useState(false);
+
+
   useEffect(() => {
 
     if (!currentUser) {
@@ -53,6 +66,10 @@ function Projects() {
   }, [currentUser?.id]);
 
 
+  /* =========================
+     DELETE
+  ========================= */
+
   function handleDelete(id) {
 
     const confirmed =
@@ -60,11 +77,14 @@ function Projects() {
         "Are you sure you want to delete this project?"
       );
 
+
     if (!confirmed) {
       return;
     }
 
+
     deleteProject(id);
+
 
     setProjects(
       projects.filter(
@@ -72,27 +92,40 @@ function Projects() {
           project.id !== id
       )
     );
+
   }
 
 
+  /* =========================
+     EDIT
+  ========================= */
+
   function handleEdit(project) {
 
-    const newTitle =
-      window.prompt(
-        "Enter new project name:",
-        project.title
-      );
+    setEditingProject(
+      project
+    );
 
-    if (!newTitle) {
-      return;
-    }
+    setShowEditForm(
+      true
+    );
 
 
-    const updatedProject = {
-      ...project,
-      title: newTitle
-    };
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
+  }
+
+
+  /* =========================
+     UPDATE
+  ========================= */
+
+  function handleUpdateProject(
+    updatedProject
+  ) {
 
     updateProject(
       updatedProject
@@ -101,14 +134,29 @@ function Projects() {
 
     setProjects(
       projects.map(
-        (item) =>
-          item.id === project.id
+        (project) =>
+          project.id ===
+          updatedProject.id
             ? updatedProject
-            : item
+            : project
       )
     );
+
+
+    setEditingProject(
+      null
+    );
+
+    setShowEditForm(
+      false
+    );
+
   }
 
+
+  /* =========================
+     SEARCH
+  ========================= */
 
   const filteredProjects =
     projects.filter(
@@ -179,6 +227,51 @@ function Projects() {
         </div>
 
 
+        {/* EDIT FORM */}
+
+        {showEditForm && editingProject && (
+
+          <ProjectForm
+            onAdd={() => {}}
+            onUpdate={
+              handleUpdateProject
+            }
+            editingProject={
+              editingProject
+            }
+          />
+
+        )}
+
+
+        {/* CANCEL EDIT */}
+
+        {showEditForm && (
+
+          <div className="text-end mb-4">
+
+            <button
+              className="btn btn-outline-secondary"
+              onClick={() => {
+
+                setEditingProject(
+                  null
+                );
+
+                setShowEditForm(
+                  false
+                );
+
+              }}
+            >
+              Cancel Edit
+            </button>
+
+          </div>
+
+        )}
+
+
         {/* SEARCH */}
 
         <div className="mb-4">
@@ -198,9 +291,31 @@ function Projects() {
         </div>
 
 
-        {/* GRID */}
+        {/* EMPTY SEARCH RESULT */}
 
-        {viewMode === "grid" && (
+        {filteredProjects.length === 0 && (
+
+          <div className="card p-5 text-center">
+
+            <h4 className="fw-bold">
+              No projects found
+            </h4>
+
+            <p className="text-secondary mb-0">
+              Try another search term.
+            </p>
+
+          </div>
+
+        )}
+
+
+        {/* =========================
+            GRID VIEW
+        ========================= */}
+
+        {viewMode === "grid" &&
+          filteredProjects.length > 0 && (
 
           <div className="row g-4">
 
@@ -210,8 +325,12 @@ function Projects() {
                 <ProjectCard
                   key={project.id}
                   project={project}
-                  onDelete={handleDelete}
-                  onEdit={handleEdit}
+                  onDelete={
+                    handleDelete
+                  }
+                  onEdit={
+                    handleEdit
+                  }
                 />
 
               )
@@ -222,9 +341,12 @@ function Projects() {
         )}
 
 
-        {/* LIST */}
+        {/* =========================
+            LIST VIEW
+        ========================= */}
 
-        {viewMode === "list" && (
+        {viewMode === "list" &&
+          filteredProjects.length > 0 && (
 
           <div className="card">
 
@@ -256,6 +378,10 @@ function Projects() {
                       Tasks
                     </th>
 
+                    <th>
+                      Actions
+                    </th>
+
                   </tr>
 
                 </thead>
@@ -266,30 +392,49 @@ function Projects() {
                   {filteredProjects.map(
                     (project) => {
 
+                      const tasks =
+                        project.tasks || [];
+
+
                       const totalTasks =
-                        project.tasks.length;
+                        tasks.length;
+
 
                       const completedTasks =
-                        project.tasks.filter(
+                        tasks.filter(
                           (task) =>
                             task.completed
                         ).length;
 
+
                       const progress =
                         totalTasks > 0
                           ? Math.round(
-                              (completedTasks /
-                                totalTasks) *
-                                100
+                              (
+                                completedTasks /
+                                totalTasks
+                              ) * 100
                             )
                           : 0;
+
+
+                      const status =
+                        progress === 100
+                          ? "Completed"
+                          : progress > 0
+                          ? "In Progress"
+                          : "Not Started";
 
 
                       return (
 
                         <tr
-                          key={project.id}
+                          key={
+                            project.id
+                          }
                         >
+
+                          {/* PROJECT */}
 
                           <td className="fw-bold">
 
@@ -298,12 +443,16 @@ function Projects() {
                           </td>
 
 
+                          {/* CATEGORY */}
+
                           <td>
 
                             {project.category}
 
                           </td>
 
+
+                          {/* PROGRESS */}
 
                           <td
                             style={{
@@ -332,6 +481,7 @@ function Projects() {
 
                               </div>
 
+
                               <span>
                                 {progress}%
                               </span>
@@ -341,17 +491,19 @@ function Projects() {
                           </td>
 
 
+                          {/* STATUS */}
+
                           <td>
 
-                            {progress ===
-                            100 ? (
+                            {status ===
+                            "Completed" ? (
 
                               <span className="badge bg-success">
                                 Completed
                               </span>
 
-                            ) : progress >
-                              0 ? (
+                            ) : status ===
+                              "In Progress" ? (
 
                               <span className="badge bg-primary">
                                 In Progress
@@ -368,11 +520,70 @@ function Projects() {
                           </td>
 
 
+                          {/* TASKS */}
+
                           <td>
 
-                            {completedTasks}
-                            /
+                            {completedTasks}/
                             {totalTasks}
+
+                          </td>
+
+
+                          {/* ACTIONS */}
+
+                          <td>
+
+                            <div className="d-flex gap-2 flex-wrap">
+
+                              <Link
+                                to={`/projects/${project.id}`}
+                                className="btn btn-primary btn-sm"
+                              >
+                                View
+                              </Link>
+
+
+                              {project.github && (
+
+                                <a
+                                  href={
+                                    project.github
+                                  }
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="btn btn-outline-light btn-sm"
+                                >
+                                  GitHub
+                                </a>
+
+                              )}
+
+
+                              <button
+                                className="btn btn-outline-secondary btn-sm"
+                                onClick={() =>
+                                  handleEdit(
+                                    project
+                                  )
+                                }
+                              >
+                                Edit
+                              </button>
+
+
+                              <button
+                                className="btn btn-outline-danger btn-sm"
+                                onClick={() =>
+                                  handleDelete(
+                                    project.id
+                                  )
+                                }
+                              >
+                                Delete
+                              </button>
+
+                            </div>
 
                           </td>
 
