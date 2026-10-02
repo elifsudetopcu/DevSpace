@@ -1,0 +1,294 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: Inter, Arial, sans-serif;
+  color: #f8fafc;
+  background-color: #0f172a;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  min-height: 70px;
+  background-color: #111827 !important;
+  border-bottom: 1px solid #1f2937;
+}
+
+.navbar-brand {
+  color: #f8fafc !important;
+  font-size: 1.25rem;
+}
+
+.nav-link {
+  color: #94a3b8 !important;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff !important;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+  min-height: calc(100vh - 70px);
+  background-color: #0f172a;
+}
+
+
+/* =========================
+   TEXT
+========================= */
+
+.text-secondary {
+  color: #94a3b8 !important;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+  background-color: #111827;
+  color: #f8fafc;
+  border: 1px solid #1f2937 !important;
+  border-radius: 14px;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: #374151 !important;
+}
+
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.stat-card {
+  background-color: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 14px;
+  padding: 24px;
+  height: 100%;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress {
+  background-color: #1e293b;
+  border-radius: 20px;
+}
+
+.progress-bar {
+  border-radius: 20px;
+}
+
+
+/* =========================
+   BADGES
+========================= */
+
+.badge.bg-light {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+.bg-dark-subtle {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-primary {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+.btn-primary:hover {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+}
+
+.btn-outline-primary {
+  color: #818cf8;
+  border-color: #6366f1;
+}
+
+.btn-outline-primary:hover {
+  background-color: #6366f1;
+  border-color: #6366f1;
+  color: #ffffff;
+}
+
+.btn-outline-secondary {
+  color: #94a3b8;
+  border-color: #475569;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #334155;
+  border-color: #475569;
+  color: #ffffff;
+}
+
+.btn-outline-danger {
+  color: #f87171;
+  border-color: #ef4444;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+.form-control {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  color: #f8fafc;
+}
+
+.form-control:focus {
+  background-color: #1e293b;
+  border-color: #6366f1;
+  color: #f8fafc;
+  box-shadow:
+    0 0 0 0.2rem
+    rgba(99, 102, 241, 0.2);
+}
+
+.form-control::placeholder {
+  color: #64748b;
+}
+
+.form-label {
+  color: #cbd5e1;
+}
+
+
+/* =========================
+   TASK LIST
+========================= */
+
+.task-item {
+  padding: 16px 0;
+  border-bottom: 1px solid #1f2937;
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+.task-item .form-check-input {
+  width: 20px;
+  height: 20px;
+  background-color: #1e293b;
+  border-color: #475569;
+  cursor: pointer;
+}
+
+.task-item .form-check-input:checked {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+.task-completed {
+  color: #64748b;
+  text-decoration: line-through;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-dark {
+  --bs-table-bg: #111827;
+  --bs-table-border-color: #1f2937;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #1e293b;
+}
+
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 12px 16px;
+  }
+
+  .container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+}
