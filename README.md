@@ -1,20 +1,20 @@
 # DevSpace
 
-DevSpace is a personal developer workspace for organizing projects, managing tasks, tracking progress, and keeping everything in one dashboard.
+DevSpace is a personal developer workspace for organizing projects, managing tasks, and tracking progress in one dashboard.
 
-It is a frontend-only web application built with React. Project data is stored in the browser using LocalStorage, so no backend or database is required.
+It is a frontend-only web application built with React. Data is stored in the browser using LocalStorage, so no backend or database is required.
 
 **Live Demo:** https://devspaceprojectmanagementdashboard.netlify.app
 
 ## Features
 
-- Dashboard with project statistics and average progress
+- Dashboard for viewing project statistics and progress
 - Create, edit, and delete projects
-- Project detail pages with technologies and GitHub links
-- Task management: add, complete, and delete tasks
-- Automatic progress calculation based on completed tasks
-- Automatic project status tracking
-- Project search
+- Project details with technologies and GitHub links
+- Add, complete, and delete tasks
+- Project progress tracking
+- Project status management
+- Search projects
 - Card and list views
 - Dark theme
 - Responsive layout
@@ -34,11 +34,56 @@ It is a frontend-only web application built with React. Project data is stored i
 
 ### Prerequisites
 
-Make sure you have Node.js and npm installed.
+Make sure Node.js and npm are installed on your computer.
 
 ### Installation
 
-Clone the repository:
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/elifsudetopcu/DevSpace.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd DevSpace
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the local URL shown in your terminal.
+
+## Build
+
+To create a production build, run:
 
 ```bash
-git clone https://github.com/elifsudetopcu/DevSpace.git
+npm run build
+```
+
+## Data Storage
+
+DevSpace uses browser LocalStorage to save project and task data. The data is stored locally in the browser and is not synchronized across different devices.
+
+## Deployment
+
+The application is deployed on Netlify.
+
+**Live Demo:** https://devspaceprojectmanagementdashboard.netlify.app
+
+## Author
+
+**Elif Sude Topçu**
+
+GitHub: https://github.com/elifsudetopcu
