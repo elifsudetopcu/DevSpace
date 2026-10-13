@@ -59,6 +59,30 @@ main {
 
 
 /* =========================
+   DASHBOARD HERO
+========================= */
+
+.workspace-hero {
+  padding-left: 20px;
+  border-left: 4px solid #6366f1;
+}
+
+.workspace-title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+  margin-bottom: 0.5rem;
+}
+
+.workspace-subtitle {
+  font-size: 1.05rem;
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+
+/* =========================
    TEXT
 ========================= */
 
@@ -289,6 +313,14 @@ main {
 
   h1 {
     font-size: 2rem;
+  }
+
+  .workspace-hero {
+    padding-left: 14px;
+  }
+
+  .workspace-title {
+    font-size: 1.75rem;
   }
 
 }

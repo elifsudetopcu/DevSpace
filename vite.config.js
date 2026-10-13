@@ -4,9 +4,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true,        // 0.0.0.0: aynı ağdaki iPhone erişebilir
+    host: true,
     port: 5173,
-    strictPort: true,  // port doluysa sessizce değiştirmez, hata verir
+    strictPort: true,
   },
   preview: {
     host: true,

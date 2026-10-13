@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   Link
@@ -8,31 +8,18 @@ import ProjectCard from "../components/ProjectCard";
 import ProjectForm from "../components/ProjectForm";
 
 import {
-  getCurrentUser,
-  getUserProjects,
+  getAllProjects,
   deleteProject,
-  updateProject
+  updateProject,
+  calculateProgress,
+  getProjectStatus
 } from "../utils/localStorage";
 
 
 function Projects() {
 
-  const currentUser =
-    getCurrentUser();
-
-
   const [projects, setProjects] =
-    useState(() => {
-
-      if (!currentUser) {
-        return [];
-      }
-
-      return getUserProjects(
-        currentUser.id
-      );
-
-    });
+    useState(getAllProjects);
 
 
   const [search, setSearch] =
@@ -49,21 +36,6 @@ function Projects() {
 
   const [showEditForm, setShowEditForm] =
     useState(false);
-
-
-  useEffect(() => {
-
-    if (!currentUser) {
-      return;
-    }
-
-    setProjects(
-      getUserProjects(
-        currentUser.id
-      )
-    );
-
-  }, [currentUser?.id]);
 
 
   /* =========================
@@ -161,7 +133,7 @@ function Projects() {
   const filteredProjects =
     projects.filter(
       (project) =>
-        project.title
+        (project.title || "")
           .toLowerCase()
           .includes(
             search.toLowerCase()
@@ -232,6 +204,7 @@ function Projects() {
         {showEditForm && editingProject && (
 
           <ProjectForm
+            key={editingProject.id}
             onAdd={() => {}}
             onUpdate={
               handleUpdateProject
@@ -408,22 +381,15 @@ function Projects() {
 
 
                       const progress =
-                        totalTasks > 0
-                          ? Math.round(
-                              (
-                                completedTasks /
-                                totalTasks
-                              ) * 100
-                            )
-                          : 0;
+                        calculateProgress(
+                          project
+                        );
 
 
                       const status =
-                        progress === 100
-                          ? "Completed"
-                          : progress > 0
-                          ? "In Progress"
-                          : "Not Started";
+                        getProjectStatus(
+                          project
+                        );
 
 
                       return (

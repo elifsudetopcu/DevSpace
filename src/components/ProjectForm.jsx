@@ -72,13 +72,12 @@ function ProjectForm({
 
     const projectData = {
 
+      // Düzenlemede mevcut kaydın tüm alanları korunur (eski veriler bozulmaz).
+      ...(isEditing ? editingProject : {}),
+
       id: isEditing
         ? editingProject.id
         : Date.now(),
-
-      userId: isEditing
-        ? editingProject.userId
-        : null,
 
       title: title.trim(),
 

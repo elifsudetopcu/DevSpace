@@ -89,7 +89,7 @@ function ProjectCard({
 
           <div className="mb-3">
 
-            {project.technologies.map(
+            {(project.technologies || []).map(
               (technology, index) => (
 
                 <span

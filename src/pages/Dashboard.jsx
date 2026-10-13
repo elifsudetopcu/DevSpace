@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import ProjectCard from "../components/ProjectCard";
 import ProjectForm from "../components/ProjectForm";
 
 import {
-  getCurrentUser,
-  getUserProjects,
+  getAllProjects,
   addProject,
   updateProject,
   deleteProject,
-  saveAllProjects,
-  getAllProjects,
   calculateProgress,
   getProjectStatus
 } from "../utils/localStorage";
@@ -18,22 +15,8 @@ import {
 
 function Dashboard() {
 
-  const currentUser =
-    getCurrentUser();
-
-
   const [projects, setProjects] =
-    useState(() => {
-
-      if (!currentUser) {
-        return [];
-      }
-
-      return getUserProjects(
-        currentUser.id
-      );
-
-    });
+    useState(getAllProjects);
 
 
   const [showForm, setShowForm] =
@@ -44,38 +27,13 @@ function Dashboard() {
     useState(null);
 
 
-  useEffect(() => {
-
-    if (!currentUser) {
-      return;
-    }
-
-    const allProjects =
-      getAllProjects();
-
-    const userProjects =
-      allProjects.filter(
-        (project) =>
-          project.userId === currentUser.id
-      );
-
-    setProjects(userProjects);
-
-  }, [currentUser?.id]);
-
-
   function handleAddProject(project) {
 
-    const projectWithUser = {
-      ...project,
-      userId: currentUser.id
-    };
-
-    addProject(projectWithUser);
+    addProject(project);
 
     setProjects([
       ...projects,
-      projectWithUser
+      project
     ]);
 
     setShowForm(false);
@@ -181,19 +139,20 @@ function Dashboard() {
 
         {/* HERO */}
 
-        <div className="mb-5">
+        <div className="workspace-hero mb-5">
 
-          <h1 className="display-5 fw-bold">
+          <h1 className="workspace-title fw-bold">
 
-            Welcome back,{" "}
-            {currentUser?.name} 👋
+            Elif Sude TOPÇU’s Workspace
 
           </h1>
 
-          <p className="lead text-secondary">
+          <p className="workspace-subtitle text-secondary mb-0">
 
-            Track your projects and
-            development progress.
+            Your personal space to
+            organize projects, track
+            progress, and grow as a
+            developer.
 
           </p>
 
@@ -317,6 +276,12 @@ function Dashboard() {
         {showForm && (
 
           <ProjectForm
+
+            key={
+              editingProject
+                ? editingProject.id
+                : "new"
+            }
 
             onAdd={
               handleAddProject

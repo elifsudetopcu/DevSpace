@@ -7,7 +7,6 @@ import {
 
 import {
   getAllProjects,
-  getCurrentUser,
   updateProject,
   calculateProgress,
   getProjectStatus
@@ -24,22 +23,16 @@ function ProjectDetail() {
     useNavigate();
 
 
-  const currentUser =
-    getCurrentUser();
-
-
   const [projects, setProjects] =
     useState(
-      getAllProjects()
+      getAllProjects
     );
 
 
   const project =
     projects.find(
       (item) =>
-        item.id === Number(id) &&
-        item.userId ===
-          currentUser?.id
+        item.id === Number(id)
     );
 
 
@@ -66,7 +59,7 @@ function ProjectDetail() {
             </h2>
 
             <p className="text-secondary">
-              This project does not exist or does not belong to your account.
+              This project does not exist.
             </p>
 
 

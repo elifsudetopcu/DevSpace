@@ -1,37 +1,44 @@
 # DevSpace
 
-A frontend project management dashboard built with React.
-https://devspaceprojectmanagementdashboard.netlify.app
+DevSpace is a personal developer workspace for organizing projects, managing tasks, tracking progress, and keeping everything in one dashboard.
+
+It is a frontend-only web application built with React. Project data is stored in the browser using LocalStorage, so no backend or database is required.
+
+**Live Demo:** https://devspaceprojectmanagementdashboard.netlify.app
 
 ## Features
 
-- User registration and login
-- Project management
-- Add, edit and delete projects
-- Project task management
-- Automatic progress calculation
-- Project status tracking
-- GitHub project links
-- Search projects
+- Dashboard with project statistics and average progress
+- Create, edit, and delete projects
+- Project detail pages with technologies and GitHub links
+- Task management: add, complete, and delete tasks
+- Automatic progress calculation based on completed tasks
+- Automatic project status tracking
+- Project search
 - Card and list views
-- LocalStorage data management
-- Responsive design
 - Dark theme
+- Responsive layout
+- LocalStorage data persistence
 
-## Technologies
+## Tech Stack
 
 - React
 - JavaScript
-- Bootstrap
+- Vite
+- React Router
+- Bootstrap 5
 - CSS
 - LocalStorage
-- React Router
-- Vite
 
-## Installation
+## Getting Started
 
-npm install
+### Prerequisites
 
-## Run
+Make sure you have Node.js and npm installed.
 
-npm run dev
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/elifsudetopcu/DevSpace.git
