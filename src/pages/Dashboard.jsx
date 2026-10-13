@@ -149,7 +149,7 @@ function Dashboard() {
 
           <p className="workspace-subtitle text-secondary mb-0">
 
-            Your personal space to
+            My personal space to
             organize projects, track
             progress, and grow as a
             developer.
