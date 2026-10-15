@@ -1,91 +1,49 @@
 # DevSpace
 
-DevSpace is a developer workspace for organizing projects, managing tasks, and tracking progress in one dashboard.
+A frontend project management dashboard built with React and LocalStorage.
 
-It is a frontend-only web application built with React. Data is stored in the browser using LocalStorage, so no backend or database is required.
+Live demo: https://devspaceprojectmanagementdashboard.netlify.app
 
-**Live Demo:** https://devspaceprojectmanagementdashboard.netlify.app
+## Screenshots
+
+![DevSpace Dashboard](./screenshots/dashboard.png)
 
 ## Features
 
-- Dashboard for viewing project statistics and progress
-- Create, edit, and delete projects
-- Project details with technologies and GitHub links
-- Add, complete, and delete tasks
-- Project progress tracking
-- Project status management
+- Project management
+- Add, edit and delete projects
+- Project task management
+- Automatic progress calculation
+- Project status tracking
+- GitHub project links
 - Search projects
 - Card and list views
+- LocalStorage data management
+- Responsive design
 - Dark theme
-- Responsive layout
-- LocalStorage data persistence
-- Open access: no login or registration required
-- Loan Predict and DevSpace are included by default as completed projects
 
-## Tech Stack
+## Technologies
 
 - React
 - JavaScript
-- Vite
-- React Router
-- Bootstrap 5
+- Bootstrap
 - CSS
 - LocalStorage
+- React Router
+- Vite
 
-## Getting Started
-
-### Prerequisites
-
-Make sure Node.js and npm are installed on your computer.
-
-### Installation
-
-1. Clone the repository:
+## Installation
 
 ```bash
-   git clone https://github.com/elifsudetopcu/DevSpace.git
+npm install
 ```
 
-2. Navigate to the project directory:
+## Run
 
 ```bash
-   cd DevSpace
-```
-
-3. Install dependencies:
-
-```bash
-   npm install
-```
-
-4. Start the development server:
-
-```bash
-   npm run dev
-```
-
-5. Open the local URL shown in your terminal.
-
-## Build
-
-To create a production build, run:
-
-```bash
-npm run build
+npm run dev
 ```
 
 ## Data Storage
 
-DevSpace uses browser LocalStorage to save project and task data. The data is stored locally in the browser and is not synchronized across different devices. On the first visit, the default projects (Loan Predict and DevSpace) are added to the browser storage once; if a visitor deletes them, they are not added again. Project data is validated and sanitized whenever it is read from or written to LocalStorage, and only http(s) links are accepted for GitHub URLs.
-
-## Deployment
-
-The application is deployed on Netlify.
-
-**Live Demo:** https://devspaceprojectmanagementdashboard.netlify.app
-
-## Author
-
-**Elif Sude Topçu**
-
-GitHub: https://github.com/elifsudetopcu
+All data is stored in the browser's LocalStorage. No backend or database is used.
