@@ -8,6 +8,10 @@ import "./index.css";
 
 import App from "./App.jsx";
 
+import { initializeProjects } from "./utils/localStorage";
+
+initializeProjects();
+
 createRoot(
   document.getElementById("root")
 ).render(

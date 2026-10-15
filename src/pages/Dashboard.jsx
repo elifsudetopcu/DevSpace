@@ -31,10 +31,7 @@ function Dashboard() {
 
     addProject(project);
 
-    setProjects([
-      ...projects,
-      project
-    ]);
+    setProjects(getAllProjects());
 
     setShowForm(false);
   }
@@ -44,14 +41,7 @@ function Dashboard() {
 
     updateProject(project);
 
-    setProjects(
-      projects.map(
-        (item) =>
-          item.id === project.id
-            ? project
-            : item
-      )
-    );
+    setProjects(getAllProjects());
 
     setEditingProject(null);
     setShowForm(false);
@@ -60,9 +50,15 @@ function Dashboard() {
 
   function handleDeleteProject(id) {
 
+    const target =
+      projects.find(
+        (project) =>
+          project.id === id
+      );
+
     const confirmed =
       window.confirm(
-        "Are you sure you want to delete this project?"
+        `Delete "${target ? target.title : "this project"}"? This action cannot be undone.`
       );
 
     if (!confirmed) {
@@ -143,16 +139,15 @@ function Dashboard() {
 
           <h1 className="workspace-title fw-bold">
 
-            Elif Sude TOPÇU’s Workspace
+            DevSpace Workspace
 
           </h1>
 
           <p className="workspace-subtitle text-secondary mb-0">
 
-            My personal space to
-            organize projects, track
-            progress, and grow as a
-            developer.
+            A space to organize
+            projects, track progress,
+            and grow as a developer.
 
           </p>
 
@@ -241,11 +236,11 @@ function Dashboard() {
           <div>
 
             <h2 className="fw-bold mb-1">
-              My Projects
+              Projects
             </h2>
 
             <p className="text-secondary mb-0">
-              Manage and track your projects.
+              Manage and track projects.
             </p>
 
           </div>

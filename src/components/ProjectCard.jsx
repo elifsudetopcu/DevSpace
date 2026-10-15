@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 
 import {
   calculateProgress,
-  getProjectStatus
+  getProjectStatus,
+  getSafeUrl
 } from "../utils/localStorage";
 
 
@@ -157,12 +158,12 @@ function ProjectCard({
             </Link>
 
 
-            {project.github && (
+            {getSafeUrl(project.github) && (
 
               <a
-                href={project.github}
+                href={getSafeUrl(project.github)}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="btn btn-outline-light btn-sm"
               >
                 GitHub

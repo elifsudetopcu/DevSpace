@@ -1,6 +1,6 @@
 # DevSpace
 
-DevSpace is a personal developer workspace for organizing projects, managing tasks, and tracking progress in one dashboard.
+DevSpace is a developer workspace for organizing projects, managing tasks, and tracking progress in one dashboard.
 
 It is a frontend-only web application built with React. Data is stored in the browser using LocalStorage, so no backend or database is required.
 
@@ -19,6 +19,8 @@ It is a frontend-only web application built with React. Data is stored in the br
 - Dark theme
 - Responsive layout
 - LocalStorage data persistence
+- Open access: no login or registration required
+- Loan Predict and DevSpace are included by default as completed projects
 
 ## Tech Stack
 
@@ -40,27 +42,27 @@ Make sure Node.js and npm are installed on your computer.
 
 1. Clone the repository:
 
-   ```bash
+```bash
    git clone https://github.com/elifsudetopcu/DevSpace.git
-   ```
+```
 
 2. Navigate to the project directory:
 
-   ```bash
+```bash
    cd DevSpace
-   ```
+```
 
 3. Install dependencies:
 
-   ```bash
+```bash
    npm install
-   ```
+```
 
 4. Start the development server:
 
-   ```bash
+```bash
    npm run dev
-   ```
+```
 
 5. Open the local URL shown in your terminal.
 
@@ -74,7 +76,7 @@ npm run build
 
 ## Data Storage
 
-DevSpace uses browser LocalStorage to save project and task data. The data is stored locally in the browser and is not synchronized across different devices.
+DevSpace uses browser LocalStorage to save project and task data. The data is stored locally in the browser and is not synchronized across different devices. On the first visit, the default projects (Loan Predict and DevSpace) are added to the browser storage once; if a visitor deletes them, they are not added again. Project data is validated and sanitized whenever it is read from or written to LocalStorage, and only http(s) links are accepted for GitHub URLs.
 
 ## Deployment
 

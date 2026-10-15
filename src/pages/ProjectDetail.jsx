@@ -9,7 +9,10 @@ import {
   getAllProjects,
   updateProject,
   calculateProgress,
-  getProjectStatus
+  getProjectStatus,
+  getSafeUrl,
+  createUniqueId,
+  LIMITS
 } from "../utils/localStorage";
 
 
@@ -149,7 +152,12 @@ function ProjectDetail() {
 
     const newTask = {
 
-      id: Date.now(),
+      id: createUniqueId(
+        tasks.map(
+          (task) =>
+            task.id
+        )
+      ),
 
       title:
         taskText.trim(),
@@ -403,16 +411,16 @@ function ProjectDetail() {
 
           {/* GITHUB */}
 
-          {project.github && (
+          {getSafeUrl(project.github) && (
 
             <div>
 
               <a
                 href={
-                  project.github
+                  getSafeUrl(project.github)
                 }
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="btn btn-outline-light btn-sm mt-3"
               >
                 View on GitHub
@@ -464,6 +472,7 @@ function ProjectDetail() {
               type="text"
               className="form-control"
               placeholder="Add a new task..."
+              maxLength={LIMITS.taskTitle}
               value={taskText}
               onChange={(event) =>
                 setTaskText(

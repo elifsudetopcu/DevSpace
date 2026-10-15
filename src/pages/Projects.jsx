@@ -12,7 +12,8 @@ import {
   deleteProject,
   updateProject,
   calculateProgress,
-  getProjectStatus
+  getProjectStatus,
+  getSafeUrl
 } from "../utils/localStorage";
 
 
@@ -44,9 +45,15 @@ function Projects() {
 
   function handleDelete(id) {
 
+    const target =
+      projects.find(
+        (project) =>
+          project.id === id
+      );
+
     const confirmed =
       window.confirm(
-        "Are you sure you want to delete this project?"
+        `Delete "${target ? target.title : "this project"}"? This action cannot be undone.`
       );
 
 
@@ -105,13 +112,7 @@ function Projects() {
 
 
     setProjects(
-      projects.map(
-        (project) =>
-          project.id ===
-          updatedProject.id
-            ? updatedProject
-            : project
-      )
+      getAllProjects()
     );
 
 
@@ -155,11 +156,11 @@ function Projects() {
           <div>
 
             <h1 className="fw-bold">
-              My Projects
+              Projects
             </h1>
 
             <p className="text-secondary">
-              View and manage all your projects.
+              View and manage all projects.
             </p>
 
           </div>
@@ -510,14 +511,14 @@ function Projects() {
                               </Link>
 
 
-                              {project.github && (
+                              {getSafeUrl(project.github) && (
 
                                 <a
                                   href={
-                                    project.github
+                                    getSafeUrl(project.github)
                                   }
                                   target="_blank"
-                                  rel="noreferrer"
+                                  rel="noopener noreferrer"
                                   className="btn btn-outline-light btn-sm"
                                 >
                                   GitHub

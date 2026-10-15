@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+import {
+  LIMITS,
+  getAllProjects,
+  createUniqueId,
+  getSafeUrl
+} from "../utils/localStorage";
+
 function ProjectForm({
   onAdd,
   onUpdate,
@@ -42,7 +49,9 @@ function ProjectForm({
     }
 
     const newTask = {
-      id: Date.now(),
+      id: createUniqueId(
+        tasks.map((task) => task.id)
+      ),
       title: taskText.trim(),
       completed: false
     };
@@ -72,12 +81,15 @@ function ProjectForm({
 
     const projectData = {
 
-      // Düzenlemede mevcut kaydın tüm alanları korunur (eski veriler bozulmaz).
       ...(isEditing ? editingProject : {}),
 
       id: isEditing
         ? editingProject.id
-        : Date.now(),
+        : createUniqueId(
+            getAllProjects().map(
+              (project) => project.id
+            )
+          ),
 
       title: title.trim(),
 
@@ -97,7 +109,7 @@ function ProjectForm({
               technology !== ""
           ),
 
-      github: github.trim(),
+      github: getSafeUrl(github),
 
       tasks: tasks
     };
@@ -154,6 +166,7 @@ function ProjectForm({
             setTitle(event.target.value)
           }
           placeholder="Example: ScanGuard"
+          maxLength={LIMITS.title}
           required
         />
 
@@ -175,6 +188,7 @@ function ProjectForm({
             setDescription(event.target.value)
           }
           placeholder="Enter project description"
+          maxLength={LIMITS.description}
           rows="3"
           required
         />
@@ -198,6 +212,7 @@ function ProjectForm({
             setCategory(event.target.value)
           }
           placeholder="Example: Cyber Security"
+          maxLength={LIMITS.category}
           required
         />
 
@@ -220,6 +235,7 @@ function ProjectForm({
             setTechnologies(event.target.value)
           }
           placeholder="React, JavaScript, Bootstrap"
+          maxLength={LIMITS.technologies * LIMITS.technology}
           required
         />
 
@@ -242,6 +258,8 @@ function ProjectForm({
             setGithub(event.target.value)
           }
           placeholder="https://github.com/username/project"
+          pattern="https?://.+"
+          maxLength={LIMITS.github}
         />
 
       </div>
@@ -266,6 +284,7 @@ function ProjectForm({
               setTaskText(event.target.value)
             }
             placeholder="Example: Create homepage"
+            maxLength={LIMITS.taskTitle}
           />
 
           <button
